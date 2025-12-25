@@ -1,0 +1,24 @@
+.main-content {
+  margin-top: 60px; // Altura do Header
+  margin-left: 250px; // Largura do Menu Aberto
+  transition: margin-left 0.3s ease-in-out;
+  min-height: calc(100vh - 60px);
+  background-color: var(--background-color, #f8f9fa);
+
+  // Quando o menu fecha, a margem diminui
+  &.expanded-content {
+    margin-left: 70px; // Largura do Menu Fechado
+  }
+}
+
+// Mobile
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding-bottom: 60px; // Espaço para menu bottom se houver
+
+    &.expanded-content {
+        margin-left: 0;
+    }
+  }
+}

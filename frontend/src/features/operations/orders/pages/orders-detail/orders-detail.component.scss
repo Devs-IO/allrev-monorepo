@@ -1,0 +1,104 @@
+// --- Variáveis e Utilitários ---
+$primary-color: #0d6efd;
+$border-radius-card: 10px;
+
+.dashboard-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.x-small { font-size: 0.75rem !important; }
+.avatar-xs { width: 24px; height: 24px; font-size: 0.7rem; }
+
+// --- Cards ---
+.card {
+    border-radius: $border-radius-card;
+    overflow: hidden;
+    // Sombra mais suave para ficar "prettier"
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.06) !important;
+}
+
+// Utilitários de Overflow para permitir que o dropdown saia
+.card-overflow-visible { overflow: visible !important; }
+.table-overflow-visible { overflow: visible !important; }
+
+
+// --- Tabelas ---
+.custom-table {
+    thead th {
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #6c757d;
+        border-bottom-width: 1px;
+    }
+
+    // Reduz o padding das células para "informação para cima"
+    tbody td {
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        border-bottom-color: #f0f0f0;
+    }
+}
+
+// Tabela de pagamentos ainda mais compacta
+.table-sm td, .table-sm th {
+    padding: 0.4rem 0.3rem;
+}
+
+// --- CORREÇÃO DO DROPDOWN (SELECT) ---
+// O segredo é o z-index alto e garantir que o posicionamento seja relativo ao container do botão
+.dropdown-container {
+    position: relative;
+
+    .dropdown-menu {
+        // Garante que ele fique POR CIMA de tudo, inclusive de outras linhas da tabela
+        z-index: 9999 !important;
+
+        // Animação suave
+        display: none; // O Angular controla o [class.show]
+        &.show {
+            display: block;
+            animation: fadeInDropdown 0.15s ease-out forwards;
+        }
+
+        // Estilo do menu
+        min-width: 190px;
+        padding: 0.5rem 0;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+        border-radius: 8px;
+        margin-top: 4px !important; // Um pequeno espaço abaixo do botão
+
+        .dropdown-item {
+             padding: 0.4rem 1rem;
+             &:hover { background-color: #f8f9fa; }
+             &:active { background-color: #e9ecef; color: inherit;}
+        }
+    }
+}
+
+@keyframes fadeInDropdown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+// --- Botões ---
+.btn-icon {
+    width: 34px; height: 34px; display: grid; place-items: center;
+}
+
+// Botão extra pequeno para tabela de pagamentos
+.btn-xs {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    border-radius: 4px;
+}
+
+// Badges com cores de fundo mais suaves (subtle) do Bootstrap 5.3
+.bg-success-subtle { background-color: #d1e7dd !important; color: #0f5132; }
+.bg-warning-subtle { background-color: #fff3cd !important; color: #664d03; }
+.bg-danger-subtle { background-color: #f8d7da !important; color: #842029; }
+.bg-primary-subtle { background-color: #cfe2ff !important; color: #084298; }

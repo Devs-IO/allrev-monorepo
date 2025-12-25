@@ -1,0 +1,23 @@
+Unificar cadastro de Cliente e conta de acesso: Atualmente, cadastrar um cliente final e criar um usuário para ele são processos separados. Seria conveniente oferecer uma opção no formulário de novo cliente para também criar acesso (ou vice-versa: ao criar usuário Cliente via Usuários, preencher seus dados de cliente). Isso exigiria vincular as entidades – por exemplo, adicionar userId em Client ou, de maneira mais simples, garantir que o email único do cliente seja o mesmo do usuário. Assim, quando o cliente logar, o sistema pode localizar seu registro de cliente pelas credenciais. Essa melhoria alinhará a implementação ao conceito de que o cliente final tenha sua página no sistema.
+
+
+Paginação e Filtros no backend: Implementar paginação em endpoints de listagem (usuários, clientes, ordens) antes que o volume cresça demais. O NestJS/TypeORM facilitam isso via QueryBuilder ou usando critérios take e skip. Da mesma forma, incluir parâmetros de filtro na API (por exemplo, filtrar clientes por nome, ou ordens por status diretamente no SQL em vez de no front) reduzirá o tráfego e o trabalho do cliente. Isso prepara o sistema para um uso com centenas de registros mantendo boa responsividade.
+
+
+Feedback visual e mensagens: Introduzir notificações claras nas ações de CRUD. O front já muda estado success=true ao criar usuário e redireciona depois de 2s
+GitHub
+, mas isso poderia ser complementado com um toast de “Usuário criado com sucesso” por exemplo. Igualmente, ao marcar pagamentos (quando implementado), ou concluir um trabalho, dar confirmações ao usuário. Atualmente, erros são exibidos populando variáveis error nos componentes, geralmente mostradas em tela – isso é bom, mas pode ser aprimorado com componentes de alerta estilizados para melhor visibilidade.
+
+
+
+
+Mascaramento de entrada e usabilidade de formulários: Implementar máscaras de formatação nos campos de telefone e data no frontend para evitar erros de digitação no padrão exigido (o regex de telefone exige formato (99) 99999-9999
+GitHub
+, mas sem máscara o usuário pode se frustrar). Libraries como ngx-mask podem ajudar. Além disso, internacionalizar ou padronizar mensagens de erro – atualmente algumas mensagens estão em português claro (ex.: “O e-mail informado já está cadastrado”)
+GitHub
+, outras são códigos ou inglês (ex.: user.manager_already_exists). Seria bom unificar isso, talvez usando arquivos de idioma ou pelo menos mantendo todas legíveis ao usuário final em português.
+
+
+Tokens e segurança front-end: Conforme mencionado, avalie mover o refresh token para cookie HttpOnly por segurança. Além disso, no front, invalidar o token no cliente ao receber 401 (talvez já esteja coberto pelo AuthService, que realiza logout em falha de refresh)
+GitHub
+. Implementar um timeout de inatividade também seria uma melhoria de segurança (o backend não faz isso nativamente, mas o front poderia limpar credenciais após X tempo sem uso, dependendo do requisito).

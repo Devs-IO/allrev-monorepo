@@ -1,0 +1,61 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ "main" ] # Dispara quando fizeres push na main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build e Push do Backend
+      - name: Build e Push Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/allrev-backend:latest
+
+      # Build e Push do Frontend
+      - name: Build e Push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/allrev-frontend:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy no Servidor via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            # Entra na pasta do projeto
+            cd /home/${{ secrets.VPS_USER }}/allrev-project
+            
+            # Puxa o compose.yaml atualizado (se mudaste algo nele)
+            git pull origin main
+            
+            # Puxa as novas imagens do Docker Hub
+            docker compose pull
+            
+            # Recria os contentores (apenas os que mudaram)
+            # --force-recreate garante que ele pega a nova imagem 'latest'
+            docker compose up -d --force-recreate
+            
+            # Limpeza opcional de imagens antigas para poupar espaço
+            docker image prune -f

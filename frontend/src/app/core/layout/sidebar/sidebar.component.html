@@ -1,0 +1,87 @@
+<nav
+  class="sidebar d-flex flex-column flex-shrink-0"
+  [class.collapsed]="isCollapsed"
+>
+  <div
+    class="sidebar-header d-flex align-items-center justify-content-between px-3 py-3"
+    style="height: 60px"
+  >
+    <div
+      class="logo-container d-flex align-items-center overflow-hidden"
+      *ngIf="!isCollapsed"
+    >
+      <span class="fs-5 fw-bold text-white tracking-tight">Allrev</span>
+    </div>
+
+    <button
+      class="btn-toggle text-white border-0 bg-transparent p-0 ms-auto"
+      (click)="toggleSidebar()"
+    >
+      <i
+        class="bi"
+        [class.bi-list]="isCollapsed"
+        [class.bi-chevron-left]="!isCollapsed"
+      ></i>
+    </button>
+  </div>
+
+  <hr class="text-white-50 my-0 mx-3" />
+
+  <ul class="nav nav-pills flex-column mb-auto mt-2 px-2">
+    <ng-container *ngFor="let item of filteredMenu; trackBy: trackByFn">
+      <li
+        *ngIf="item.separator"
+        class="border-top border-white-50 my-2 mx-2 opacity-50"
+      ></li>
+
+      <li class="nav-item">
+        <a
+          [routerLink]="item.route"
+          [routerLinkActiveOptions]="{ exact: item.exact || false }"
+          routerLinkActive="active"
+          class="nav-link text-white d-flex align-items-center"
+          [title]="isCollapsed ? item.label : ''"
+        >
+          <i
+            [class]="item.icon"
+            class="fs-5 d-flex justify-content-center"
+            [style.min-width]="'24px'"
+          ></i>
+
+          <span class="ms-3 text-nowrap" *ngIf="!isCollapsed">{{
+            item.label
+          }}</span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+
+  <div class="sidebar-footer mt-auto p-3 border-top border-white-50">
+    <div
+      class="d-flex align-items-center"
+      [class.justify-content-center]="isCollapsed"
+    >
+      <div
+        class="avatar bg-white text-primary rounded-circle fw-bold d-flex align-items-center justify-content-center flex-shrink-0"
+        style="width: 32px; height: 32px"
+      >
+        {{ currentUser?.name?.charAt(0) || "U" }}
+      </div>
+
+      <div class="ms-2 overflow-hidden" *ngIf="!isCollapsed">
+        <div class="text-white fw-bold small text-truncate">
+          {{ currentUser?.name }}
+        </div>
+      </div>
+
+      <button
+        (click)="logout()"
+        class="btn btn-link text-white ms-auto p-0"
+        title="Sair"
+        *ngIf="!isCollapsed"
+      >
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</nav>

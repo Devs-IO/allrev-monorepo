@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    /* ✅ Compatibilidade Geral */
+    "module": "commonjs",
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "incremental": true,
+
+    /* ✅ TypeScript Moderno */
+    "strict": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* ✅ Suporte a Decorators e Metadata */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,      // ✅ Obrigatório para Decorators
+    "useDefineForClassFields": true,    // ✅ Recomendado para Classes Modernas
+
+    /* ✅ Suporte ao NestJS + TypeORM */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+
+    /* ✅ Base Paths (Paths Alias) */
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    /* ✅ Performance */
+    "skipLibCheck": true,
+  },
+  "include": ["src/**/*.ts", "src/data-source.ts", "src/config/database/migrations/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/**/*.spec.ts", "src/**/*.test.ts"]
+}

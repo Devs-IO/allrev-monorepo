@@ -1,0 +1,8 @@
+<app-header></app-header>
+
+<app-sidebar [isCollapsed]="isSidebarCollapsed" (toggle)="toggleSidebar()">
+</app-sidebar>
+
+<main class="main-content" [class.expanded-content]="isSidebarCollapsed">
+  <router-outlet></router-outlet>
+</main>

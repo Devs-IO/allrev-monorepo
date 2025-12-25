@@ -1,0 +1,248 @@
+<div class="container my-4">
+  <h2 class="text-primary"><i class="fas fa-edit"></i> Editar Cliente</h2>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2">Carregando dados do cliente...</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert alert-danger">
+    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+  </div>
+
+  <!-- Form -->
+  <form *ngIf="!loading && clients" (ngSubmit)="submit()">
+    <!-- Dados Pessoais -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5><i class="fas fa-user"></i> Dados Pessoais</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Nome -->
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">
+              <i class="fas fa-user"></i> Nome *
+            </label>
+            <input
+              id="name"
+              class="form-control"
+              [(ngModel)]="formData.name"
+              name="name"
+              placeholder="Nome completo do cliente"
+              required
+            />
+          </div>
+
+          <!-- Ativo -->
+          <div class="col-md-3 mb-3 d-flex align-items-end">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="isActive"
+                name="isActive"
+                [(ngModel)]="formData.isActive"
+              />
+              <label class="form-check-label" for="isActive">
+                <i
+                  class="fas"
+                  [ngClass]="
+                    formData.isActive
+                      ? 'fa-toggle-on text-success'
+                      : 'fa-toggle-off text-muted'
+                  "
+                ></i>
+                {{ formData.isActive ? "Ativo" : "Inativo" }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Email -->
+          <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">
+              <i class="fas fa-envelope"></i> Email *
+            </label>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              [(ngModel)]="formData.email"
+              name="email"
+              placeholder="email@exemplo.com"
+              required
+            />
+          </div>
+          <!-- Telefone -->
+          <div class="col-md-6 mb-3">
+            <label for="phone" class="form-label">
+              <i class="fas fa-phone"></i> Telefone
+            </label>
+            <input
+              id="phone"
+              class="form-control"
+              [(ngModel)]="formData.phone"
+              name="phone"
+              appPhoneMask
+              inputmode="numeric"
+              placeholder="(11) 99999-9999"
+            />
+          </div>
+        </div>
+
+        <!-- Natureza Jurídica -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="legalNature" class="form-label">
+              <i class="fas fa-building"></i> Natureza Jurídica
+            </label>
+            <select
+              id="legalNature"
+              class="form-control"
+              [(ngModel)]="formData.legalNature"
+              name="legalNature"
+            >
+              <option [value]="undefined">Selecione...</option>
+              <option value="PERSON_PHYSICAL">Pessoa Física</option>
+              <option value="PERSON_LEGAL">Pessoa Jurídica</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CPF (mostrar apenas se Pessoa Física) -->
+        <div
+          class="row"
+          *ngIf="
+            !formData.legalNature || formData.legalNature === 'PERSON_PHYSICAL'
+          "
+        >
+          <div class="col-md-6 mb-3">
+            <label for="cpf" class="form-label">
+              <i class="fas fa-id-card"></i> CPF
+            </label>
+            <input
+              id="cpf"
+              class="form-control"
+              [(ngModel)]="formData.cpf"
+              name="cpf"
+              placeholder="00000000000"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <!-- CNPJ (mostrar apenas se Pessoa Jurídica) -->
+        <div class="row" *ngIf="formData.legalNature === 'PERSON_LEGAL'">
+          <div class="col-md-6 mb-3">
+            <label for="cnpj" class="form-label">
+              <i class="fas fa-building"></i> CNPJ
+            </label>
+            <input
+              id="cnpj"
+              class="form-control"
+              [(ngModel)]="formData.cnpj"
+              name="cnpj"
+              placeholder="00000000000000"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informações Acadêmicas -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5><i class="fas fa-graduation-cap"></i> Informações Acadêmicas</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Universidade -->
+          <div class="col-md-6 mb-3">
+            <label for="university" class="form-label">
+              <i class="fas fa-university"></i> Universidade
+            </label>
+            <input
+              id="university"
+              class="form-control"
+              [(ngModel)]="formData.university"
+              name="university"
+              placeholder="Nome da universidade"
+            />
+          </div>
+
+          <!-- Curso -->
+          <div class="col-md-6 mb-3">
+            <label for="course" class="form-label">
+              <i class="fas fa-book"></i> Curso
+            </label>
+            <input
+              id="course"
+              class="form-control"
+              [(ngModel)]="formData.course"
+              name="course"
+              placeholder="Nome do curso"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informações Adicionais -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5><i class="fas fa-sticky-note"></i> Informações Adicionais</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Observação -->
+          <div class="col-md-6 mb-3">
+            <label for="observation" class="form-label">
+              <i class="fas fa-comment"></i> Observação
+            </label>
+            <textarea
+              id="observation"
+              class="form-control"
+              [(ngModel)]="formData.observation"
+              name="observation"
+              rows="3"
+              placeholder="Observações sobre o cliente"
+            ></textarea>
+          </div>
+
+          <!-- Nota -->
+          <div class="col-md-6 mb-3">
+            <label for="note" class="form-label">
+              <i class="fas fa-clipboard"></i> Nota
+            </label>
+            <textarea
+              id="note"
+              class="form-control"
+              [(ngModel)]="formData.note"
+              name="note"
+              rows="3"
+              placeholder="Notas internas sobre o cliente"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-secondary" routerLink="/clients">
+        <i class="fas fa-times"></i> Voltar
+      </button>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!isDirty()">
+        <i class="fas fa-save"></i> Salvar Alterações
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # --- Banco de Dados ---
+  postgres:
+    image: postgres:latest
+    container_name: allrev_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}      # Usar variáveis de ambiente (.env)
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - pgdata_allrev:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - allrev-network
+
+  # --- Backend (NestJS) ---
+  backend:
+    container_name: allrev_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    # ADICIONA ESTA LINHA: Carrega todas as variáveis do arquivo .env do servidor
+    env_file:
+      - .env 
+    environment:
+      # Podes manter estas sobreposições explícitas se quiseres, mas o env_file já ajuda muito
+      NODE_ENV: production
+      DB_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - allrev-network
+
+  # --- Frontend (Angular + Nginx) ---
+  frontend:
+    container_name: allrev_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '80:80' # Acede à aplicação na porta 80 do servidor
+    depends_on:
+      - backend
+    networks:
+      - allrev-network
+
+volumes:
+  pgdata_allrev:
+
+networks:
+  allrev-network:
+    driver: bridge

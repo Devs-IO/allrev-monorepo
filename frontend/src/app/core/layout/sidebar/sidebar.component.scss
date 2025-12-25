@@ -1,0 +1,91 @@
+// Tenta usar a variável global, se não, usa o Vinho padrão como fallback
+$bg-color: var(--primary-color, #57040F);
+$text-color: #fff;
+$hover-color: rgba(255, 255, 255, 0.1);
+$active-color: rgba(255, 255, 255, 0.2);
+
+:host {
+    display: block;
+}
+
+.sidebar {
+    position: fixed;
+    top: 60px; // Assumindo altura do Header
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+
+    // Configurações de Tamanho e Transição
+    width: 250px; // Largura Expandida
+    transition: width 0.3s ease-in-out;
+
+    // COR SÓLIDA DO SISTEMA (Vinho)
+    background-color: $bg-color;
+    color: $text-color;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+
+    // Estado Colapsado (Reduzido)
+    &.collapsed {
+        width: 70px; // Largura Reduzida
+
+        .nav-link {
+            justify-content: center; // Centraliza ícones
+            padding-left: 0;
+            padding-right: 0;
+
+            span { display: none; } // Garante que texto suma
+        }
+
+        .sidebar-header {
+            justify-content: center;
+        }
+    }
+}
+
+// Estilos dos Links
+.nav-link {
+    color: rgba(255, 255, 255, 0.8) !important; // Branco levemente transparente para itens inativos
+    margin-bottom: 4px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    height: 44px; // Altura fixa para consistência
+
+    &:hover {
+        background-color: $hover-color;
+        color: #fff !important;
+    }
+
+    &.active {
+        background-color: $active-color;
+        color: #fff !important;
+        font-weight: 600;
+        box-shadow: inset 3px 0 0 #fff; // Detalhe visual de ativo na esquerda
+    }
+}
+
+// Botão de Toggle
+.btn-toggle {
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    &:hover { opacity: 1; }
+}
+
+// Ajustes responsivos (Opcional: em mobile pode cobrir a tela ou virar gaveta)
+@media (max-width: 768px) {
+    .sidebar {
+        // Em mobile, pode começar colapsado ou usar lógica de overlay
+        // Aqui mantemos o comportamento padrão, mas o usuário pode colapsar manualmente
+    }
+}
+
+// Garante que o conteúdo não vaze
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,29 @@
+modules = ["nodejs-20"]
+
+run = "npm install && npm install --save-dev @nestjs/cli && npm run build && npm run start:prod"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "npm install && npm install --save-dev @nestjs/cli && npm run build && npm run start:prod"]
+
+[workflows]
+runButton = "Start Backend"
+
+[[workflows.workflow]]
+name = "Start Backend"
+author = 935312
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install && npm install --save-dev @nestjs/cli"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run start:prod"

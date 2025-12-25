@@ -1,0 +1,175 @@
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0 text-brand">
+      <i class="fas fa-cogs me-2"></i>Serviços e Funcionalidades
+    </h1>
+    <button class="btn btn-outline-wine" routerLink="/functionalities/create">
+      <i class="bi bi-plus-lg me-1"></i> Novo Serviço
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2">Carregando funcionalidades...</p>
+  </div>
+
+  <!-- Tabela -->
+  <div *ngIf="!loading && functionalities.length > 0" class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th><i class="fas fa-tag"></i> Nome</th>
+              <th><i class="fas fa-align-left"></i> Descrição</th>
+              <th><i class="fas fa-user"></i> Responsável</th>
+              <th><i class="fas fa-dollar-sign"></i> Preço Mínimo</th>
+              <th><i class="fas fa-coins"></i> Preço Assistente</th>
+              <th><i class="fas fa-toggle-on"></i> Status</th>
+              <th><i class="fas fa-calendar"></i> Criado em</th>
+              <th><i class="fas fa-cog"></i> Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let functionality of functionalities; let i = index">
+              <td>
+                <strong
+                  ><i class="fas fa-cube me-2"></i
+                  >{{ functionality.name }}</strong
+                >
+              </td>
+              <td>
+                <span *ngIf="functionality.description; else noDescription">
+                  {{ functionality.description | slice : 0 : 50
+                  }}<span *ngIf="functionality.description.length > 50"
+                    >...</span
+                  >
+                </span>
+                <ng-template #noDescription>
+                  <span class="text-muted">-</span>
+                </ng-template>
+              </td>
+              <td>
+                <i class="fas fa-user me-1"></i>
+                <ng-container
+                  *ngIf="functionality.responsibleUserId; else noResp"
+                >
+                  <ng-container
+                    *ngIf="
+                      functionality.responsibleUserId === currentUserId;
+                      else otherResp
+                    "
+                  >
+                    <strong>{{ currentUserName || "Você" }}</strong>
+                    <span class="badge bg-info ms-1">Você</span>
+                  </ng-container>
+                  <ng-template #otherResp>
+                    {{
+                      responsibleUsers[functionality.responsibleUserId] || "-"
+                    }}
+                  </ng-template>
+                </ng-container>
+                <ng-template #noResp> - </ng-template>
+              </td>
+              <td>
+                {{
+                  functionality.minimumPrice
+                    | currency : "BRL" : "symbol" : "1.2-2"
+                }}
+              </td>
+              <td>
+                <span
+                  *ngIf="
+                    functionality.defaultAssistantPrice;
+                    else noAssistantPrice
+                  "
+                >
+                  {{
+                    functionality.defaultAssistantPrice
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}
+                </span>
+                <ng-template #noAssistantPrice>
+                  <span class="text-muted">-</span>
+                </ng-template>
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [class]="
+                    functionality.status === 'ACTIVE'
+                      ? 'bg-success'
+                      : 'bg-secondary'
+                  "
+                >
+                  <i
+                    class="fas"
+                    [ngClass]="
+                      functionality.status === 'ACTIVE'
+                        ? 'fa-check-circle'
+                        : 'fa-times-circle'
+                    "
+                  ></i>
+                  {{ functionality.status === "ACTIVE" ? "Ativo" : "Inativo" }}
+                </span>
+                <!-- Indicador de status do responsável (apenas quando inativo por causa do responsável) -->
+                <span
+                  *ngIf="functionality.inactiveReason"
+                  class="badge bg-warning ms-2"
+                  [title]="getInactiveReasonText(functionality.inactiveReason)"
+                >
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Responsável {{ getStatusLabel(functionality.inactiveReason) }}
+                </span>
+              </td>
+              <td>{{ functionality.createdAt | date : "dd/MM/yyyy" }}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary action-btn"
+                    title="Visualizar"
+                    [routerLink]="['/functionalities', functionality.id]"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-warning action-btn"
+                    title="Editar"
+                    (click)="edit(functionality.id)"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger action-btn"
+                    title="Excluir"
+                    (click)="confirmDelete(functionality.id)"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div
+    *ngIf="!loading && functionalities.length === 0"
+    class="text-center py-5"
+  >
+    <i class="fas fa-cogs fa-3x text-muted mb-3"></i>
+    <h5 class="text-muted">Nenhuma funcionalidade cadastrada</h5>
+    <p class="text-muted">
+      Clique no menu lateral para cadastrar uma nova funcionalidade.
+    </p>
+  </div>
+</div>

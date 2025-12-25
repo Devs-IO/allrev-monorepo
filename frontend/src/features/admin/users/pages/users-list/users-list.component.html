@@ -1,0 +1,226 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="text-wine mb-0">
+        <i class="fas fa-users me-2"></i>
+        Usuários
+      </h2>
+      <p class="text-muted mb-0" *ngIf="isAdmin">
+        Gestão completa de usuários do sistema
+      </p>
+      <p class="text-muted mb-0" *ngIf="!isAdmin">
+        Gestão da sua equipe de assistentes
+      </p>
+    </div>
+
+    <button class="btn btn-wine" [routerLink]="['/users/create']">
+      <i class="fas fa-plus me-2"></i>
+      Novo Usuário
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <app-spinner></app-spinner>
+    <p class="mt-2 text-muted">Carregando usuários...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger shadow-sm">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    {{ error }}
+  </div>
+
+  <div
+    *ngIf="!loading && !error && users().length === 0"
+    class="text-center py-5 bg-white rounded shadow-sm"
+  >
+    <img
+      src="assets/avatar-default.svg"
+      alt="Sem usuários"
+      style="width: 120px; opacity: 0.5"
+    />
+    <h4 class="mt-3 text-muted">Nenhum usuário encontrado</h4>
+    <p class="text-muted">Comece adicionando um novo membro à equipe.</p>
+  </div>
+
+  <div
+    *ngIf="
+      !loading &&
+      !error &&
+      users().length > 0 &&
+      getFilteredUsers().length === 0
+    "
+    class="text-center py-5 bg-white rounded shadow-sm mt-3"
+  >
+    <i class="fas fa-filter fs-1 text-muted mb-3 opacity-50"></i>
+    <h4 class="mt-3 text-muted">Nenhum resultado para este filtro</h4>
+    <p class="text-muted">Tente alterar os critérios de filtro.</p>
+  </div>
+
+  <div
+    *ngIf="!loading && !error && users().length > 0"
+    class="card shadow-sm border-0 overflow-hidden"
+  >
+    <!-- Filtros -->
+    <div class="card-header bg-white border-bottom p-3" *ngIf="isAdmin">
+      <div class="d-flex gap-2 align-items-center flex-wrap">
+        <span class="text-muted small fw-semibold">Filtrar por:</span>
+        <button
+          class="btn btn-sm"
+          [ngClass]="
+            selectedRoleFilter === '' ? 'btn-primary' : 'btn-outline-primary'
+          "
+          (click)="filterByRole('')"
+        >
+          <i class="fas fa-list me-1"></i> Todos
+        </button>
+        <button
+          class="btn btn-sm"
+          [ngClass]="
+            selectedRoleFilter === 'MANAGER'
+              ? 'btn-warning'
+              : 'btn-outline-warning'
+          "
+          (click)="filterByRole('MANAGER')"
+        >
+          <i class="fas fa-user-tie me-1"></i> Gestores
+        </button>
+        <button
+          class="btn btn-sm"
+          [ngClass]="
+            selectedRoleFilter === 'ASSISTANT' ? 'btn-info' : 'btn-outline-info'
+          "
+          (click)="filterByRole('ASSISTANT')"
+        >
+          <i class="fas fa-user-check me-1"></i> Assistentes
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col" class="ps-4" (click)="sortBy('name')" role="button">
+              Nome <i class="fas fa-sort ms-1 text-muted small"></i>
+            </th>
+            <th scope="col" (click)="sortBy('email')" role="button">
+              E-mail <i class="fas fa-sort ms-1 text-muted small"></i>
+            </th>
+            <th scope="col">Função</th>
+            <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-end pe-4">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of getFilteredUsers()">
+            <td class="ps-4">
+              <div class="d-flex align-items-center">
+                <div
+                  class="avatar-circle bg-primary-subtle text-primary me-3 fw-bold"
+                >
+                  {{ user.name.charAt(0).toUpperCase() }}
+                </div>
+                <div>
+                  <div class="fw-semibold text-dark">{{ user.name }}</div>
+                  <small class="text-muted d-md-none">{{ user.email }}</small>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span class="text-muted">{{ user.email }}</span>
+            </td>
+
+            <td>
+              <span
+                class="badge rounded-pill border"
+                [ngClass]="{
+                  'bg-primary-subtle text-primary border-primary-subtle':
+                    user.role === 'admin' || user.role === 'ADMIN',
+                  'bg-warning-subtle text-warning-emphasis border-warning-subtle':
+                    user.role === 'manager_reviewers' ||
+                    user.role === 'MANAGER_REVIEWERS',
+                  'bg-info-subtle text-info-emphasis border-info-subtle':
+                    user.role === 'assistant_reviewers' ||
+                    user.role === 'ASSISTANT_REVIEWERS',
+                  'bg-light text-dark border-secondary-subtle':
+                    user.role === 'client' || user.role === 'CLIENT'
+                }"
+              >
+                {{ translateRole(user.role) }}
+              </span>
+            </td>
+
+            <td class="text-center">
+              <span class="badge" [ngClass]="getUserStatusClass(user)">
+                {{ getUserStatusText(user) }}
+              </span>
+            </td>
+
+            <td class="text-end pe-4">
+              <div class="btn-group">
+                <button
+                  class="btn btn-sm btn-light text-primary"
+                  (click)="viewUser(user.id)"
+                  title="Visualizar Detalhes"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+
+                <button
+                  class="btn btn-sm btn-light text-warning-emphasis"
+                  (click)="editUser(user.id)"
+                  [disabled]="!isAdmin && isUserUnlinked(user)"
+                  [title]="
+                    !isAdmin && isUserUnlinked(user)
+                      ? 'Assistente desvinculado - não pode editar'
+                      : 'Editar Usuário'
+                  "
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+
+                <button
+                  class="btn btn-sm btn-light text-danger"
+                  (click)="deleteUser(user.id)"
+                  [disabled]="!isAdmin && isUserUnlinked(user)"
+                  [title]="
+                    !isAdmin && isUserUnlinked(user)
+                      ? 'Assistente já desvinculado'
+                      : 'Remover/Desativar'
+                  "
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-confirmation-modal
+  [show]="showEditModal"
+  [type]="'edit'"
+  title="Editar Usuário"
+  [message]="
+    'Deseja editar os dados de ' + (selectedUser?.name || 'usuário') + '?'
+  "
+  confirmText="Ir para Edição"
+  (confirmed)="confirmEdit()"
+  (cancelled)="closeModals()"
+>
+</app-confirmation-modal>
+
+<app-confirmation-modal
+  [show]="showDeleteModal"
+  [type]="'danger'"
+  [title]="deleteModalTitle"
+  [message]="deleteModalMessage"
+  [confirmText]="isAdmin ? 'Desativar Usuário' : 'Remover da Equipe'"
+  (confirmed)="confirmDelete()"
+  (cancelled)="closeModals()"
+>
+</app-confirmation-modal>
