@@ -59,14 +59,14 @@ export class AuthService {
   private signAccessToken(payload: JwtPayload): string {
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET || 'supersecretkey',
-      expiresIn: process.env.JWT_EXPIRATION || '1h',
+      expiresIn: (process.env.JWT_EXPIRATION as any) || ('1h' as any),
     });
   }
 
   private signRefreshToken(payload: JwtPayload): string {
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET || 'supersecretkey',
-      expiresIn: process.env.JWT_REFRESH_EXPIRATION || '7d',
+      expiresIn: (process.env.JWT_REFRESH_EXPIRATION as any) || ('7d' as any),
     });
   }
 
