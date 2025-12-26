@@ -5,7 +5,7 @@ export const content = {
   },
   cta: {
     primaryLabel: 'Agendar demonstração',
-    primaryHref: 'https://SEU-LINK-AQUI', // TODO
+    primaryHref: 'https://w.app/allrev', // TODO
     secondaryLabel: 'Ver funcionalidades',
     secondaryHref: '#funcionalidades',
   },
@@ -95,9 +95,9 @@ export const content = {
     title: 'Pronta para escalar com controle operacional?',
     subtitle: 'Centralize o fluxo e reduza retrabalho com cliente e equipe.',
     buttonLabel: 'Falar com a AllRev',
-    buttonHref: 'https://SEU-LINK-AQUI', // TODO
+    buttonHref: 'https://w.app/allrev',
   },
   footer: {
-    contact: 'contato@SEUDOMINIO.COM', // TODO
+    contact: 'contato@allrev.com.br',
   },
 };
