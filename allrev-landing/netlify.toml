@@ -1,6 +1,7 @@
 [build]
-  publish = "dist/"
-  command = "npm run build -- --configuration production"
+  base = "allrev-landing"
+  publish = "dist"
+  command = "npm run build"
 
 [[redirects]]
   from = "/*"
