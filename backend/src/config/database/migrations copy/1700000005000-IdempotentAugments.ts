@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class IdempotentAugments1748800002000 implements MigrationInterface {
-  name = 'IdempotentAugments1748800002000';
+export class IdempotentAugments1700000005000 implements MigrationInterface {
+  name = 'IdempotentAugments1700000005000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // -- users: must_change_password

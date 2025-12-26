@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddFunctionalitiesUsersFields1748800001000 implements MigrationInterface {
-  name = 'AddFunctionalitiesUsersFields1748800001000';
+export class AddFunctionalitiesUsersFields1700000004000 implements MigrationInterface {
+  name = 'AddFunctionalitiesUsersFields1700000004000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Create enum for functionalities_users status if not exists

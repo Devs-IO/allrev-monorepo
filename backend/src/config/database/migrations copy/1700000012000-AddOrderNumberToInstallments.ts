@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddOrderNumberToInstallments1751200300000 implements MigrationInterface {
-  name = 'AddOrderNumberToInstallments1751200300000';
+export class AddOrderNumberToInstallments1700000012000 implements MigrationInterface {
+  name = 'AddOrderNumberToInstallments1700000012000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // 1. Adiciona a coluna (nullable inicialmente para não quebrar dados existentes)

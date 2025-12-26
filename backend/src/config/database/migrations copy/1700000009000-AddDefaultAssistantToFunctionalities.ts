@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddDefaultAssistantToFunctionalities1751200000000 implements MigrationInterface {
-  name = 'AddDefaultAssistantToFunctionalities1751200000000';
+export class AddDefaultAssistantToFunctionalities1700000009000 implements MigrationInterface {
+  name = 'AddDefaultAssistantToFunctionalities1700000009000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Add column default_assistant_id if not exists

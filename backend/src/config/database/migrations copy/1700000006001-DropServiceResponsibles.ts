@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class DropServiceResponsibles1748800003001 implements MigrationInterface {
-  name = 'DropServiceResponsibles1748800003001';
+export class DropServiceResponsibles1700000006001 implements MigrationInterface {
+  name = 'DropServiceResponsibles1700000006001';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('DROP TABLE IF EXISTS "service_responsibles"');

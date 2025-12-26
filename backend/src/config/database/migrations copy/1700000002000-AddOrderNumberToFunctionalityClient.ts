@@ -1,9 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddOrderNumberToFunctionalityClientAndStandardizeFields1732582800000
-  implements MigrationInterface
-{
-  name = 'AddOrderNumberToFunctionalityClientAndStandardizeFields1732582800000';
+export class AddOrderNumberToFunctionalityClient1700000002000 implements MigrationInterface {
+  name = 'AddOrderNumberToFunctionalityClient1700000002000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Add order_number column to functionalities_clients
@@ -106,12 +104,6 @@ export class AddOrderNumberToFunctionalityClientAndStandardizeFields173258280000
     await queryRunner.query(`
       ALTER TABLE "tenants"
       ADD COLUMN "deleted_at" TIMESTAMP
-    `);
-
-    // Fix column naming to snake_case
-    await queryRunner.query(`
-      ALTER TABLE "functionalities_clients"
-      RENAME COLUMN "totalPrice" TO "total_price"
     `);
 
     // Add table comments

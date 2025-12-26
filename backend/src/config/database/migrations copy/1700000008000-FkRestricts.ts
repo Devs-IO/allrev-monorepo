@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class FkRestricts202508191724097460000 implements MigrationInterface {
-  name = 'FkRestricts202508191724097460000';
+export class FkRestricts1700000008000 implements MigrationInterface {
+  name = 'FkRestricts1700000008000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Change FKs to RESTRICT for orders -> items and items -> responsibilities where applicable

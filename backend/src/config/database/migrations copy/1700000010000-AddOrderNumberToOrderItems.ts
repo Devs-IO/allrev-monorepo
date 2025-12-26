@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddOrderNumberToOrderItems1751200100000 implements MigrationInterface {
-  name = 'AddOrderNumberToOrderItems1751200100000';
+export class AddOrderNumberToOrderItems1700000010000 implements MigrationInterface {
+  name = 'AddOrderNumberToOrderItems1700000010000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Add column if missing

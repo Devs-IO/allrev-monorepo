@@ -8,12 +8,14 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME}      # Usar variáveis de ambiente (.env)
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:  # <--- ADICIONA ISTO
+      - "5431:5432"
     volumes:
-      - pgdata_allrev:/var/lib/postgresql/data
+      - pgdata_allrev:/var/lib/postgresql
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME}']
       interval: 10s
       timeout: 5s
       retries: 5

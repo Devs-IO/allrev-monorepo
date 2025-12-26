@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class EnforceFunctionalityUniqueAndFK1748800004000 implements MigrationInterface {
-  name = 'EnforceFunctionalityUniqueAndFK1748800004000';
+export class EnforceFunctionalityUniqueAndFK1700000006003 implements MigrationInterface {
+  name = 'EnforceFunctionalityUniqueAndFK1700000006003';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Ensure unique (tenant_id, name)

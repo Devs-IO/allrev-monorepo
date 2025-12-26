@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddFunctionalityTables1747412900000 implements MigrationInterface {
-  name = 'AddFunctionalityTables1747412900000';
+export class AddFunctionalityTables1700000001000 implements MigrationInterface {
+  name = 'AddFunctionalityTables1700000001000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Create enum for functionality status

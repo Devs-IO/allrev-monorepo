@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class OrdersAggregate1724097460000 implements MigrationInterface {
-  name = 'OrdersAggregate1724097460000';
+export class OrdersAggregate1700000007000 implements MigrationInterface {
+  name = 'OrdersAggregate1700000007000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Ensure uuid-ossp extension is available for uuid_generate_v4()

@@ -22,7 +22,12 @@ export const AppDataSource = new DataSource({
   //entities: ['./src/modules/**/*.entity{.ts,.js}'], // Caminho relativo direto
   //migrations: ['./src/config/database/migrations/*.ts'], // Caminho para suas migrações
   entities: ['./dist/modules/**/*.entity{.js,.js}'],
-  migrations: ['./dist/config/database/migrations/*.js'],
+  migrations: [
+    './dist/config/database/migrations/1700000099001-BaselineCore.js',
+    './dist/config/database/migrations/1700000099002-BaselineFunctionalities.js',
+    './dist/config/database/migrations/1700000099003-BaselineOrders.js',
+    './dist/config/database/migrations/1700000099004-SeedAdminUser.js',
+  ],
 
   extra: {
     connectionLimit: 10, // Limite de conexões para o pool

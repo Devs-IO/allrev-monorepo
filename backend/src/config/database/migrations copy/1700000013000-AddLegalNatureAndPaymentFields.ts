@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export class AddLegalNatureAndPaymentFields1733769600000 implements MigrationInterface {
+export class AddLegalNatureAndPaymentFields1700000013000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const tableExists = await queryRunner.hasTable('clients');
 

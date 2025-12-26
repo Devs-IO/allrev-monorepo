@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddServiceResponsibles1748800003000 implements MigrationInterface {
-  name = 'AddServiceResponsibles1748800003000';
+export class AddServiceResponsibles1700000006000 implements MigrationInterface {
+  name = 'AddServiceResponsibles1700000006000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`

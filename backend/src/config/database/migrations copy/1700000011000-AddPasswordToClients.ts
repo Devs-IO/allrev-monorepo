@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export class AddPasswordToClients1751200200000 implements MigrationInterface {
+export class AddPasswordToClients1700000011000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Adiciona a coluna password
     await queryRunner.addColumn(

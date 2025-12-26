@@ -1,9 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class UpdateFunctionalitiesClientsStatusAndContractDate1748800000000
-  implements MigrationInterface
-{
-  name = 'UpdateFunctionalitiesClientsStatusAndContractDate1748800000000';
+export class UpdateFunctionalitiesClientsStatus1700000003000 implements MigrationInterface {
+  name = 'UpdateFunctionalitiesClientsStatus1700000003000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Create new enum if not exists

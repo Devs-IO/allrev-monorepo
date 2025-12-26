@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class UpdateFunctionalitiesUnique1748800003002 implements MigrationInterface {
-  name = 'UpdateFunctionalitiesUnique1748800003002';
+export class UpdateFunctionalitiesUnique1700000006002 implements MigrationInterface {
+  name = 'UpdateFunctionalitiesUnique1700000006002';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Drop previous unique index on (tenant_id, name) if it exists
