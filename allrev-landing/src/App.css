@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Configuração do Tema Premium (Cores do Design System) */
+@theme {
+  /* Mapeando as cores que usei no código React */
+  --color-brand-dark: #0f172a;           /* Slate 900 */
+  --color-brand-primary: #0e7490;        /* Cyan 700 */
+  --color-brand-gradientStart: #06b6d4;  /* Cyan 400 */
+  --color-brand-gradientEnd: #22c55e;    /* Green 500 */
+  
+  /* Fontes */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
